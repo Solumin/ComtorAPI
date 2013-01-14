@@ -1,17 +1,27 @@
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
+import java.util.ArrayList;
+
 public class PackageDoc implements Doc {
 
-  public ClassDoc classes;
+	public ArrayList<ClassDoc> classes;
+	public String name;
+	public int lineNumber;
 
-  public String name;
+	public String getName() {
+		return name;
+	}
 
-  public Integer lineNumber;
+	public int getLineNumber() {
+		return lineNumber;
+	}
 
-  public ClassDoc getClasses() {
-  return null;
-  }
+	public ClassDoc getClasses() {
+		return null;
+	}
 
-  public ClassDoc findClass(String className) {
-  return null;
-  }
+	public ClassDoc findClass(String className) {
+		return null;
+	}
 
 }

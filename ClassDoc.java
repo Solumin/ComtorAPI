@@ -1,33 +1,73 @@
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
+import java.util.ArrayList;
+
 public class ClassDoc implements ElementDoc {
 
-  public String className;
+	private String className;
+	private int lineNumber;
 
-  public Integer lineNumber;
+	private String modifiers;
+	private PackageDoc pkgDoc;
+	private CommentDoc comment;
 
-  public String modifiers;
+	private ArrayList<String> imports;
+	private ArrayList<MethodDoc> methods;
+	private ArrayList<ConstructorDoc> constructors;
+	private ArrayList<FieldDoc> fields;
 
-  public PackageDoc package;
+	// Creates a basic "null" class without only really basic info.
+	private ClassDoc(String name, int ln) {
+		this.className = name;
+		this.lineNumber = ln;
+	}
 
-  public CommentDoc comment;
+	// Parses an ANTLR tree to create the class documentation
+	private ClassDoc(CommonTree root) {
 
-  public String getImports() {
-  return null;
-  }
+	}
 
-  public MemberDoc getMembers() {
-  return null;
-  }
+	public String getName() {
+		return className;
+	}
 
-  public ConstructorDoc getConstructors() {
-  return null;
-  }
+	public int getLineNumber() {
+		return lineNumber;
+	}
 
-  public MethodDoc getMethods() {
-  return null;
-  }
+	public String getModifiers() {
+		return modifiers;
+	}
 
-  public FieldDoc getFields() {
-  return null;
-  }
+	public PackageDoc getPackage() {
+		return pkgDoc;
+	}
+
+	public CommentDoc getComment() {
+		return comment;
+	}
+
+	public ArrayList<String> getImports() {
+		return imports;
+	}
+
+	public ArrayList<MemberDoc> getMembers() {
+		ArrayList<MemberDoc> members = new ArrayList<MemberDoc>(methods);
+		members.addAll(constructors);
+		members.addAll(fields);
+		return members;
+	}
+
+	public ArrayList<ConstructorDoc> getConstructors() {
+		return constructors;
+	}
+
+	public ArrayList<MethodDoc> getMethods() {
+		return methods;
+	}
+
+	public ArrayList<FieldDoc> getFields() {
+		return fields;
+	}
 
 }

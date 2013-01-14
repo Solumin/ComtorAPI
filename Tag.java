@@ -1,25 +1,29 @@
 public class Tag {
 
-  public String name;
+	public String name;
+	public int lineNumber;
+	public String text;
 
-  public Integer lineNumber;
+	public Tag(String name, int ln, String text) {
+		this.name = name;
+		this.lineNumber = ln;
+		this.text = text;
+	}
 
-  public String text;
+	public String getName() {
+		return name;
+	}
 
-  public String getName() {
-  return null;
-  }
+	public String getText() {
+		return text;
+	}
 
-  public String getText() {
-  return null;
-  }
+	public int getLineNumber() {
+		return lineNumber;
+	}
 
-  public Integer getLineNumber() {
-  return null;
-  }
-
-  public String toString() {
-  return null;
-  }
+	public String toString() {
+		return null;
+	}
 
 }

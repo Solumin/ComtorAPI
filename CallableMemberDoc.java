@@ -1,5 +1,7 @@
+import java.util.ArrayList;
+
 public interface CallableMemberDoc extends MemberDoc {
 
-  public void getParams();
+	public ArrayList<String> getParams();
 
 }

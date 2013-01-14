@@ -1,17 +1,45 @@
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
+import java.util.ArrayList;
+
 public class ConstructorDoc implements CallableMemberDoc {
 
-  public String name;
+	private String name;
+	private int lineNumber;
 
-  public Integer lineNumber;
+	private String modifiers;
+	private PackageDoc pkgDoc;
+	private CommentDoc comment;
 
-  public String modifiers;
+	private ClassDoc classDoc;
 
-  public PackageDoc package;
+	private ArrayList<String> params;
 
-  public CommentDoc comment;
+	public String getName() {
+		return name;
+	}
 
-  public ClassDoc class;
+	public int getLineNumber() {
+		return lineNumber;
+	}
 
-  public String params;
+	public String getModifiers() {
+		return modifiers;
+	}
 
+	public PackageDoc getPackage() {
+		return pkgDoc;
+	}
+
+	public CommentDoc getComment() {
+		return comment;
+	}
+
+	public ClassDoc getClassDoc() {
+		return classDoc;
+	}
+
+	public ArrayList<String> getParams() {
+		return params;
+	}
 }

@@ -1,9 +1,9 @@
 public interface ElementDoc extends Doc {
 
-  public String getModifiers();
+	public String getModifiers();
 
-  public PackageDoc getPackage();
+	public PackageDoc getPackage();
 
-  public CommentDoc getComment();
+	public CommentDoc getComment();
 
 }

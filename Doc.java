@@ -1,7 +1,7 @@
 public interface Doc {
 
-  public String getName();
+	public String getName();
 
-  public Integer getLineNumber();
+	public int getLineNumber();
 
 }
