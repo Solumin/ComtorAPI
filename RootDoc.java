@@ -4,8 +4,13 @@ import java.util.ArrayList;
 
 public class RootDoc {
 
-	public ArrayList<PackageDoc> packages;
-	public ArrayList<ClassDoc> classes;
+	private ArrayList<PackageDoc> packages;
+	private ArrayList<ClassDoc> classes;
+
+	// Creates a RootDoc from an ANTLR tree.
+	public RootDoc(CommonTree root) {
+
+	}
 
 	public ClassDoc getClasses() {
 		return null;

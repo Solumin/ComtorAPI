@@ -16,7 +16,7 @@ public class ClassDoc implements ElementDoc {
 	private ArrayList<ConstructorDoc> constructors;
 	private ArrayList<FieldDoc> fields;
 
-	// Creates a basic "null" class without only really basic info.
+	// Creates a basic "null" class with only really basic info.
 	private ClassDoc(String name, int ln) {
 		this.className = name;
 		this.lineNumber = ln;
