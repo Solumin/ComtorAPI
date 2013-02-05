@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 public interface ElementDoc extends Doc {
 
-	public String getModifiers();
+	public ArrayList<String> getModifiers();
 
 	public PackageDoc getPackage();
 

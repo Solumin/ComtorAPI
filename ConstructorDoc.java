@@ -7,13 +7,17 @@ public class ConstructorDoc implements CallableMemberDoc {
 	private String name;
 	private int lineNumber;
 
-	private String modifiers;
+	private ArrayList<String> modifiers;
 	private PackageDoc pkgDoc;
 	private CommentDoc comment;
 
 	private ClassDoc classDoc;
 
 	private ArrayList<String> params;
+
+	public ConstructorDoc(CommonTree root) {
+		
+	}
 
 	public String getName() {
 		return name;
@@ -23,7 +27,7 @@ public class ConstructorDoc implements CallableMemberDoc {
 		return lineNumber;
 	}
 
-	public String getModifiers() {
+	public ArrayList<String> getModifiers() {
 		return modifiers;
 	}
 

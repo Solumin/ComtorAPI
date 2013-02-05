@@ -23,7 +23,7 @@ public class Tag {
 	}
 
 	public String toString() {
-		return name + " " + text
+		return name + " " + text;
 	}
 
 }

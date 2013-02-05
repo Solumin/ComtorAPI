@@ -7,12 +7,16 @@ public class FieldDoc implements MemberDoc {
 	private String name;
 	private int lineNumber;
 
-	private String modifiers;
+	private ArrayList<String> modifiers;
 	private PackageDoc pkgDoc;
 	private CommentDoc comment;
 	private ClassDoc classDoc;
 
 	private String type;
+
+	public FieldDoc(CommonTree root) {
+		
+	}
 
 	public String getName() {
 		return name;
@@ -22,7 +26,7 @@ public class FieldDoc implements MemberDoc {
 		return lineNumber;
 	}
 
-	public String getModifiers() {
+	public ArrayList<String> getModifiers() {
 		return modifiers;
 	}
 

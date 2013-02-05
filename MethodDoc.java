@@ -7,7 +7,7 @@ public class MethodDoc implements CallableMemberDoc {
 	private String name;
 	private int lineNumber;
 
-	private String modifiers;
+	private ArrayList<String> modifiers;
 	private PackageDoc pkgDoc;
 	private CommentDoc comment;
 
@@ -15,6 +15,10 @@ public class MethodDoc implements CallableMemberDoc {
 
 	private ArrayList<String> params;
 	private String type;
+
+	public MethodDoc(CommonTree root) {
+		
+	}
 
 	public String getName() {
 		return name;
@@ -24,7 +28,7 @@ public class MethodDoc implements CallableMemberDoc {
 		return lineNumber;
 	}
 
-	public String getModifiers() {
+	public ArrayList<String> getModifiers() {
 		return modifiers;
 	}
 

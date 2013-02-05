@@ -1,13 +1,14 @@
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClassDoc implements ElementDoc {
 
 	private String className;
 	private int lineNumber;
 
-	private String modifiers;
+	private ArrayList<String> modifiers;
 	private PackageDoc pkgDoc;
 	private CommentDoc comment;
 
@@ -16,15 +17,68 @@ public class ClassDoc implements ElementDoc {
 	private ArrayList<ConstructorDoc> constructors;
 	private ArrayList<FieldDoc> fields;
 
+	private String superClass;
+	private String interfaces;
+
 	// Creates a basic "null" class with only really basic info.
-	private ClassDoc(String name, int ln) {
+	public ClassDoc(String name, int ln) {
 		this.className = name;
 		this.lineNumber = ln;
 	}
 
 	// Parses an ANTLR tree to create the class documentation
-	private ClassDoc(CommonTree root) {
+	public ClassDoc(CommonTree root) {
+		className = root.getChild(0).getText();
+		lineNumber = root.getLine();
 
+		modifiers = new ArrayList<String>();
+		imports = new ArrayList<String>();
+		methods = new ArrayList<MethodDoc>();
+		constructors = new ArrayList<ConstructorDoc>();
+		fields = new ArrayList<FieldDoc>();
+
+		superClass = "";
+		interfaces = "";
+
+		List memTrees = root.getChildren();
+
+		for (int i = 1; i < memTrees.size(); i++) {
+			CommonTree mem = (CommonTree)memTrees.get(i);
+			switch (mem.getText()) {
+				case "ACCESS_MODIFER":
+					List accMods = mem.getChildren();
+					for (int j = 0; j < accMods.size(); j++) {
+						CommonTree acc = (CommonTree)accMods.get(j);
+						modifiers.add(acc.getText());
+					}
+					break;
+				case "TYPE_PARAMS":
+					className += "<";
+					List typeParams = mem.getChildren();
+					for (int j = 0; j < typeParams.size(); j++) {
+						CommonTree type = (CommonTree)typeParams.get(j);
+						modifiers.add(type.getText());
+					}
+					className = className.substring(0, -2) + ">";
+					break;
+				case "extends":
+					superClass = mem.getChild(0).getText();
+					break;
+				case "implements":
+					String inType = mem.getChild(0).getText();
+					interfaces += (interfaces.isEmpty()) ? inType : ", "+inType;
+					break;
+				case "VAR_DEF":
+					fields.add(new FieldDoc(mem));
+					break;
+				case "CONSTRUCTOR":
+					constructors.add(new ConstructorDoc(mem));
+					break;
+				case "METHOD_DEC":
+					methods.add(new MethodDoc(mem));
+					break;
+			}
+		}
 	}
 
 	public String getName() {
@@ -35,7 +89,7 @@ public class ClassDoc implements ElementDoc {
 		return lineNumber;
 	}
 
-	public String getModifiers() {
+	public ArrayList<String> getModifiers() {
 		return modifiers;
 	}
 
