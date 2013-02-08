@@ -1,3 +1,6 @@
+lib/
+
+
 ############
 ## Java
 ############
@@ -11,6 +14,8 @@
 ############
 ## Windows
 ############
+# Batch scripts
+.bat
 
 # Windows image file caches
 Thumbs.db
