@@ -10,16 +10,28 @@ public class RootDoc {
 
 	// Creates a RootDoc from an ANTLR tree.
 	public RootDoc(CommonTree root) {
+		// The 1st level children are packages.
 		List pkgs = root.getChildren();
 
 		packages = new ArrayList<PackageDoc>();
 		classes = new ArrayList<ClassDoc>();
 
+		// Parse the root tree to create the packages
+		// Control recuses down through PackageDoc --> ClassDoc
+		// and onto the Member docs (Constructor, Method and Field)
 		for (int i = 0; i < pkgs.size(); i++) {
 			CommonTree pkg = (CommonTree)pkgs.get(i);
 			PackageDoc pkgdoc = new PackageDoc(pkg);
 			packages.add(pkgdoc);
-			classes.addAll(pkgdoc.getClasses());
+		}
+
+		// To complete the docs, RootDoc asks PackageDoc to set the
+		// rest of the metadata, e.g. ClassDoc's PackageDoc.
+		for (PackageDoc pkg : packages) {
+			for (ClassDoc cls : pkg.getClasses()) {
+				cls.setMemberDocs(pkg);
+				classes.add(cls);
+			}
 		}
 	}
 
@@ -44,5 +56,4 @@ public class RootDoc {
 				return p;
 		return null;
 	}
-
 }

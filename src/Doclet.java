@@ -1,11 +1,6 @@
-import java.util.Vector;
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
 
 public abstract class Doclet {
-
-    public Vector  myRootDoc;
-
-  public Boolean start(RootDoc rootDoc) {
-  return null;
-  }
-
+	public abstract Boolean start(RootDoc rootDoc);
 }

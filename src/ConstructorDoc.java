@@ -1,22 +1,73 @@
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConstructorDoc implements CallableMemberDoc {
 
 	private String name;
 	private int lineNumber;
 
-	private ArrayList<String> modifiers;
 	private PackageDoc pkgDoc;
-	private CommentDoc comment;
-
 	private ClassDoc classDoc;
 
+	private ArrayList<String> modifiers;
 	private ArrayList<String> params;
+	private ArrayList<String> exceptions;
+
+	private CommentDoc comment;
+	private CommonTree body;
 
 	public ConstructorDoc(CommonTree root) {
-		
+		name = root.getChild(0).getText();
+		lineNumber = root.getLine();
+
+		modifiers = new ArrayList<String>();
+		params = new ArrayList<String>();
+		exceptions = new ArrayList<String>();
+
+		List atts = root.getChildren();
+
+		for (int i = 0; i < atts.size(); i++) {
+			CommonTree att = (CommonTree)atts.get(i);
+
+			switch (att.getText()) {
+				case "ACCESS_MODIFER":
+					List accMods = att.getChildren();
+					for (int j = 0; j < accMods.size(); j++) {
+						CommonTree acc = (CommonTree)accMods.get(j);
+						modifiers.add(acc.getText());
+					}
+					break;
+				case "TYPE_PARAMS":
+					name += "<";
+					List typeParams = att.getChildren();
+					for (int j = 0; j < typeParams.size(); j++) {
+						CommonTree type = (CommonTree)typeParams.get(j);
+						name += type.getText();
+					}
+					name = name.substring(0, -2) + ">";
+					break;
+				case "PARAMS":
+					List paramTree = att.getChildren();
+					for (int j = 0; j < paramTree.size(); j+=2) {
+						CommonTree param = (CommonTree)paramTree.get(j);
+						CommonTree paramType = (CommonTree)paramTree.get(j+1);
+						params.add(param.getText() + " " + paramType.getText());
+					}
+					break;
+				case "THROWS":
+					List excepts = att.getChildren();
+					for (int j = 0; j < excepts.size(); j++) {
+						CommonTree except = (CommonTree)excepts.get(j);
+						exceptions.add(except.getText());
+					}
+					break;
+				case "BODY":
+					body = att;
+					break;
+			}
+		}
 	}
 
 	public String getName() {
@@ -31,8 +82,12 @@ public class ConstructorDoc implements CallableMemberDoc {
 		return modifiers;
 	}
 
-	public PackageDoc getPackage() {
+	public PackageDoc getPackageDoc() {
 		return pkgDoc;
+	}
+
+	public void setPackageDoc(PackageDoc pkg) {
+		pkgDoc = pkg;
 	}
 
 	public CommentDoc getComment() {
@@ -41,6 +96,10 @@ public class ConstructorDoc implements CallableMemberDoc {
 
 	public ClassDoc getClassDoc() {
 		return classDoc;
+	}
+
+	public void setClassDoc(ClassDoc cls) {
+		classDoc = cls;
 	}
 
 	public ArrayList<String> getParams() {

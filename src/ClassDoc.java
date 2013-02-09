@@ -57,9 +57,9 @@ public class ClassDoc implements ElementDoc {
 					List typeParams = mem.getChildren();
 					for (int j = 0; j < typeParams.size(); j++) {
 						CommonTree type = (CommonTree)typeParams.get(j);
-						modifiers.add(type.getText());
+						className += type.getText() + ", ";
 					}
-					className = className.substring(0, -2) + ">";
+					className = className.substring(0, className.length()-2) + ">";
 					break;
 				case "extends":
 					superClass = mem.getChild(0).getText();
@@ -77,8 +77,19 @@ public class ClassDoc implements ElementDoc {
 				case "METHOD_DEC":
 					methods.add(new MethodDoc(mem));
 					break;
-			}
-		}
+				case "IMPORTS":
+					List imps = mem.getChildren();
+					for (int j = 0; j < imps.size(); j++) {
+						List impList = ((CommonTree)imps.get(j)).getChildren();
+						String impStatement = "";
+						for (int k = 0; k < impList.size(); k++) {
+							CommonTree imp = (CommonTree) impList.get(k);
+							impStatement += imp.getText();
+						}
+						imports.add(impStatement);
+					}
+			} // switch
+		} // member loop
 	}
 
 	public String getName() {
@@ -93,8 +104,20 @@ public class ClassDoc implements ElementDoc {
 		return modifiers;
 	}
 
-	public PackageDoc getPackage() {
+	public PackageDoc getPackageDoc() {
 		return pkgDoc;
+	}
+
+	public void setPackageDoc(PackageDoc pkg) {
+		pkgDoc = pkg;
+	}
+
+	public void setMemberDocs(PackageDoc pkg) {
+		pkgDoc = pkg;
+		for (MemberDoc mem : getMembers()) {
+			mem.setClassDoc(this);
+			mem.setPackageDoc(pkg);
+		}
 	}
 
 	public CommentDoc getComment() {
@@ -124,4 +147,7 @@ public class ClassDoc implements ElementDoc {
 		return fields;
 	}
 
+	public String toString() {
+		return getName();
+	}
 }

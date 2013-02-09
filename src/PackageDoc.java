@@ -18,8 +18,14 @@ public class PackageDoc implements Doc {
 
 		for (int i = 0; i < clsTrees.size(); i++) {
 			CommonTree clsTree = (CommonTree)clsTrees.get(i);
-			ClassDoc clsDoc = new ClassDoc(clsTree);
-			classes.add(clsDoc);
+			if (clsTree.getText().equals("NORMAL_CLASS")) {
+				CommonTree imps = (CommonTree)clsTrees.get(i+1);
+				if (imps.getText().equals("IMPORTS")) {
+					clsTree.addChild(imps);
+				}
+				ClassDoc clsDoc = new ClassDoc(clsTree);
+				classes.add(clsDoc);
+			}
 		}
 	}
 

@@ -1,4 +1,5 @@
 javac -cp .;../lib/antlr-3.3.jar;../lib/cantlr.jar *.java
 jar cf ComtorDocs.jar *.class
 del *.class
-move ComtorDocs.jar ../lib/ComtorDocs.jar
+copy ComtorDocs.jar ..\lib\ComtorDocs.jar
+move ComtorDocs.jar ../../ComtorEngine/lib/ComtorDocs.jar
