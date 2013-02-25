@@ -71,6 +71,9 @@ public class MethodDoc implements CallableMemberDoc {
 				case "BODY":
 					body = att;
 					break;
+				case "COMMENT_STATEMENT":
+					comment = new CommentDoc(att);
+					break;
 			}
 		}
 	}

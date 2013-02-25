@@ -2,7 +2,7 @@ import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 import java.util.ArrayList;
 import java.util.List;
-
+//Arbitrary comment!
 public class ClassDoc implements ElementDoc {
 
 	private String className;
