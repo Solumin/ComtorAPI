@@ -8,17 +8,17 @@ public class ClassDoc implements ElementDoc {
 	private String className;
 	private int lineNumber;
 
-	private ArrayList<String> modifiers;
 	private PackageDoc pkgDoc;
 	private CommentDoc comment;
 
+	private ArrayList<String> modifiers;
+	private String superClass;
+	private ArrayList<String> interfaces;
 	private ArrayList<String> imports;
+
 	private ArrayList<MethodDoc> methods;
 	private ArrayList<ConstructorDoc> constructors;
 	private ArrayList<FieldDoc> fields;
-
-	private String superClass;
-	private String interfaces;
 
 	// Creates a basic "null" class with only really basic info.
 	public ClassDoc(String name, int ln) {
@@ -37,15 +37,14 @@ public class ClassDoc implements ElementDoc {
 		constructors = new ArrayList<ConstructorDoc>();
 		fields = new ArrayList<FieldDoc>();
 
-		superClass = "";
-		interfaces = "";
+		interfaces = new ArrayList<String>();
 
 		List memTrees = root.getChildren();
 
 		for (int i = 1; i < memTrees.size(); i++) {
 			CommonTree mem = (CommonTree)memTrees.get(i);
 			switch (mem.getText()) {
-				case "ACCESS_MODIFER":
+				case "ACCESS_MODIFIER":
 					List accMods = mem.getChildren();
 					for (int j = 0; j < accMods.size(); j++) {
 						CommonTree acc = (CommonTree)accMods.get(j);
@@ -65,8 +64,11 @@ public class ClassDoc implements ElementDoc {
 					superClass = mem.getChild(0).getText();
 					break;
 				case "implements":
-					String inType = mem.getChild(0).getText();
-					interfaces += (interfaces.isEmpty()) ? inType : ", "+inType;
+					List inters = mem.getChildren();
+					for (int j = 0; j < inters.size(); j++) {
+						CommonTree inter = (CommonTree)inters.get(j);
+						interfaces.add(inter.getText());
+					}
 					break;
 				case "VAR_DEF":
 					fields.add(new FieldDoc(mem));
@@ -79,6 +81,9 @@ public class ClassDoc implements ElementDoc {
 					break;
 				case "IMPORTS":
 					List imps = mem.getChildren();
+					if (imps == null) {
+						break;
+					}
 					for (int j = 0; j < imps.size(); j++) {
 						List impList = ((CommonTree)imps.get(j)).getChildren();
 						String impStatement = "";
@@ -88,6 +93,10 @@ public class ClassDoc implements ElementDoc {
 						}
 						imports.add(impStatement);
 					}
+					break;
+				case "COMMENT_STATEMENT":
+					comment = new CommentDoc(mem);
+					break;
 			} // switch
 		} // member loop
 	}
@@ -128,6 +137,14 @@ public class ClassDoc implements ElementDoc {
 		return imports;
 	}
 
+	public String getSuperClass() {
+		return superClass;
+	}
+
+	public ArrayList<String> getInterfaces() {
+		return interfaces;
+	}
+
 	public ArrayList<MemberDoc> getMembers() {
 		ArrayList<MemberDoc> members = new ArrayList<MemberDoc>(methods);
 		members.addAll(constructors);
@@ -145,6 +162,10 @@ public class ClassDoc implements ElementDoc {
 
 	public ArrayList<FieldDoc> getFields() {
 		return fields;
+	}
+
+	public Boolean hasComment() {
+		return comment != null;
 	}
 
 	public String toString() {

@@ -32,7 +32,7 @@ public class ConstructorDoc implements CallableMemberDoc {
 			CommonTree att = (CommonTree)atts.get(i);
 
 			switch (att.getText()) {
-				case "ACCESS_MODIFER":
+				case "ACCESS_MODIFIER":
 					List accMods = att.getChildren();
 					for (int j = 0; j < accMods.size(); j++) {
 						CommonTree acc = (CommonTree)accMods.get(j);
@@ -53,7 +53,8 @@ public class ConstructorDoc implements CallableMemberDoc {
 					for (int j = 0; j < paramTree.size(); j+=2) {
 						CommonTree param = (CommonTree)paramTree.get(j);
 						CommonTree paramType = (CommonTree)paramTree.get(j+1);
-						params.add(param.getText() + " " + paramType.getText());
+						paramType = (CommonTree)paramType.getChild(0);
+						params.add(paramType.getText() + " " + param.getText());
 					}
 					break;
 				case "THROWS":
@@ -65,6 +66,9 @@ public class ConstructorDoc implements CallableMemberDoc {
 					break;
 				case "BODY":
 					body = att;
+					break;
+				case "COMMENT_STATEMENT":
+					comment = new CommentDoc(att);
 					break;
 			}
 		}

@@ -8,7 +8,7 @@ CLOBBER.include('**/ComtorDocs.jar')
 ANTLR = 'lib/antlr-3.3.jar'
 
 #Grab all the java source files
-JAVA = FileList['src/*.java']
+JAVA = FileList['src/*.java'].exclude(/src\/(COMTOR*|Test*)/)
 #Make a list of java class files
 CLASS = JAVA.ext('class')
 

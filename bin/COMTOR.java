@@ -146,10 +146,7 @@ public abstract class COMTOR {
 
 		CommonTree temp;
 		CommonTree comm;
-		//System.out.println("In add comments");
-		//System.out.println("\t" + root.getText() + " " + root.getChildCount() + " " + root.getLine());
-		//System.out.println("\t" + comments.getText() + " " + comments.getChildCount() + " " + comments.getLine());
-
+	
 		if (comments.getChildCount() > 0) {
 			comm = (CommonTree)comments.getChild(0);
 
@@ -195,8 +192,6 @@ public abstract class COMTOR {
 				try {
 					temp = processFile(dir.getPath()+"\\"+files[i]);//runParser(dir.getPath()+"\\"+files[i]);
 				} catch (RecognitionException e) {
-					//System.out.println("Error parsing " + files[i]+". File skipped.");
-					//System.out.println("\t"+e);
 					errorCount++;
 					continue;
 				}
@@ -205,7 +200,6 @@ public abstract class COMTOR {
 				try {
 					comments = runCommentParser(dir.getPath()+"\\"+files[i]);
 				} catch (Exception e) {
-					//System.out.println("Error parsing comments in " + files[i] + ". Processing aborted.");
 					errorCount++;
 					continue;
 				}
@@ -223,40 +217,6 @@ public abstract class COMTOR {
 				} else {
 					root.addChild(temp);
 				}
-
-				// if (hasChild(temp, "package")) {
-				// 	// Generate package information
-				// 	List treeChildren = temp.getChildren();
-				// 	child = (CommonTree)treeChildren.get(1); //should be PACKAGE
-				// 	treeChildren = child.getChildren();
-				// 	if (treeChildren != null) {
-				// 		for (int j = 0; j < treeChildren.size(); j++) {
-				// 			child = (CommonTree)treeChildren.get(j);
-				// 			packageName += child.getText();
-				// 		}
-				// 	}
-			
-
-				// 	//System.out.println("\tpackage: "+packageName);
-				// 	//System.out.println("\tToken type: "+child.getType());
-				// 	//System.out.println("\tLine number: "+ child.getLine());
-
-				// 	// Add parsed file to root under the package name subtree
-				// 	if (!hasChild(root, packageName)) {
-				// 		CommonTree newChild = new CommonTree(new CommonToken(child.getType(), packageName));
-				// 		root.addChild(newChild);
-				// 		((CommonTree)(root.getChild(0))).addChild(temp);
-				// 	} else {
-				// 		List c = root.getChildren();
-				// 		for (int j = 0; j < c.size(); j++) {
-				// 			child = (CommonTree)c.get(j);
-				// 			if (packageName.equals(child.getText())) {
-				// 				child.addChild(temp);
-				// 				break;
-				// 			}
-				// 		}
-				// 	}
-				// }
 			}
 
 			String[] subdirs = dir.list();
@@ -272,8 +232,6 @@ public abstract class COMTOR {
 		try {
 			root = runParser(file);
 		} catch (Exception e) {
-			//System.out.println("Error parsing " + file + ". File skipped.");
-			//System.out.println(e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -282,8 +240,6 @@ public abstract class COMTOR {
 		try {
 			comments = runCommentParser(file);
 		} catch (Exception e) {
-			//System.out.println("Error parsing comments in " + file + ". Processing aborted.");
-
 			return null;
 		}
 		// Mix in comments

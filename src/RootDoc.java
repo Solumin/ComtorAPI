@@ -7,6 +7,7 @@ public class RootDoc {
 
 	private ArrayList<PackageDoc> packages;
 	private ArrayList<ClassDoc> classes;
+	private CommonTree tree;
 
 	// Creates a RootDoc from an ANTLR tree.
 	public RootDoc(CommonTree root) {
@@ -15,6 +16,7 @@ public class RootDoc {
 
 		packages = new ArrayList<PackageDoc>();
 		classes = new ArrayList<ClassDoc>();
+		tree = root;
 
 		// Parse the root tree to create the packages
 		// Control recuses down through PackageDoc --> ClassDoc
@@ -55,5 +57,9 @@ public class RootDoc {
 			if (p.getName().equals(pkgName))
 				return p;
 		return null;
+	}
+
+	public String toStringTree() {
+		return tree.toStringTree();
 	}
 }

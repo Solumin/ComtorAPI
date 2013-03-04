@@ -34,7 +34,7 @@ public class MethodDoc implements CallableMemberDoc {
 			CommonTree att = (CommonTree)atts.get(i);
 
 			switch (att.getText()) {
-				case "ACCESS_MODIFER":
+				case "ACCESS_MODIFIER":
 					List accMods = att.getChildren();
 					for (int j = 0; j < accMods.size(); j++) {
 						CommonTree acc = (CommonTree)accMods.get(j);
@@ -42,7 +42,7 @@ public class MethodDoc implements CallableMemberDoc {
 					}
 					break;
 				case "TYPE":
-					type = att.getText();
+					type = att.getChild(0).getText();
 					break;
 				case "TYPE_PARAMS":
 					name += "<";
@@ -58,7 +58,8 @@ public class MethodDoc implements CallableMemberDoc {
 					for (int j = 0; j < paramTree.size(); j+=2) {
 						CommonTree param = (CommonTree)paramTree.get(j);
 						CommonTree paramType = (CommonTree)paramTree.get(j+1);
-						params.add(param.getText() + " " + paramType.getText());
+						paramType = (CommonTree)paramType.getChild(0);
+						params.add(paramType.getText() + " " + param.getText());
 					}
 					break;
 				case "THROWS":
@@ -116,5 +117,9 @@ public class MethodDoc implements CallableMemberDoc {
 
 	public String getReturnType() {
 		return type;
+	}
+
+	public ArrayList<String> getExceptions() {
+		return exceptions;
 	}
 }

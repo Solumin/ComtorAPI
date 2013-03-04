@@ -23,7 +23,7 @@ public class Tag {
 	}
 
 	public String toString() {
-		return lineNumber + ": " + name + " " + text;
+		return String.format("@%s %s", name, text);
 	}
 
 }

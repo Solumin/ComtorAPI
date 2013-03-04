@@ -14,6 +14,7 @@ public class FieldDoc implements MemberDoc {
 
 	private ArrayList<String> modifiers;
 	private String type;
+	private String value;
 
 	public FieldDoc(CommonTree root) {
 		name = root.getChild(0).getText();
@@ -27,7 +28,7 @@ public class FieldDoc implements MemberDoc {
 			CommonTree att = (CommonTree)atts.get(i);
 
 			switch (att.getText()) {
-				case "ACCESS_MODIFER":
+				case "ACCESS_MODIFIER":
 					List accMods = att.getChildren();
 					for (int j = 0; j < accMods.size(); j++) {
 						CommonTree acc = (CommonTree)accMods.get(j);
@@ -35,7 +36,13 @@ public class FieldDoc implements MemberDoc {
 					}
 					break;
 				case "TYPE":
-					type = att.getText();
+					type = att.getChild(0).getText();
+					break;
+				case "INITIAL_VALUE":
+					value = att.getChild(0).getText();
+					break;
+				case "COMMENT_STATEMENT":
+					comment = new CommentDoc(att);
 					break;
 			}
 		}
@@ -75,6 +82,10 @@ public class FieldDoc implements MemberDoc {
 
 	public String getType() {
 		return type;
+	}
+
+	public String getValue() {
+		return value;
 	}
 
 	public String toString() {
